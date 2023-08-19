@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema({
   mobile: { type: String },
   email_opt: { type: String },
   mobile_otp: { type: String },
+  mobile_verified: {type: Boolean, default: false},
+  expiryDate: { type: Date }
 }, {
     timestamps: true
 });
