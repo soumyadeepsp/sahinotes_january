@@ -175,3 +175,54 @@ module.exports.logout = async function(req, res) {
         return;
     }
 }
+
+module.exports.sendForgotPasswordEmail = async function(req, res) {
+    var email = req.query.email;
+    console.log(email);
+    var user = await User.findOne({email: email});
+    if (user) {
+        var emailBody = `<h1>Click on the link to reset password</h1> <a href="http://localhost:3000/auth/reset-password/?user_id=${user.id}">Reset password</a>`
+        await helperFunctions.sendemail(user, emailBody);
+        user.passwordEditInitiation = new Date();
+        await user.save();
+    } else {
+        console.log("Email does not exist so you cannot reset password");
+        // notify this to the user
+        return res.redirect("back");
+    }
+}
+
+module.exports.resetPassword = async function(req, res) {
+    var userId = req.query.user_id;
+    console.log(userId);
+    var user = await User.findById(userId);
+    if (user) {
+        return res.render("reset_password", {
+            userId: userId
+        });
+    } else {
+        console.log("user id might be tampered");
+        return res.redirect("/auth/signin");
+    }
+}
+
+module.exports.changePassword = async function(req, res) {
+    var userId = req.query.userId;
+    var password = req.body.password;
+    var confirmPassword = req.body.confirm_password;
+    console.log(req);
+    var user = await User.findById(userId);
+    if (user) {
+        var currentDate = new Date();
+        var initiationDate = user.passwordEditInitiation;
+        var difference = currentDate.getMinutes() - initiationDate.getMinutes();
+        if (password==confirmPassword && difference<=2) {
+            user.password = password;
+            await user.save();
+            return res.redirect("/auth/signin");
+        }
+    } else {
+        console.log("user does not exist or some issue");
+        return res.redirect("back");
+    }
+}

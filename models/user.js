@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
   email_opt: { type: String },
   mobile_otp: { type: String },
   mobile_verified: {type: Boolean, default: false},
+  passwordEditInitiation: {type: Date},
   expiryDate: { type: Date }
 }, {
     timestamps: true
