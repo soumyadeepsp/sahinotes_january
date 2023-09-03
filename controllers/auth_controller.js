@@ -3,6 +3,7 @@ const FAST2SMS_KEY = "bh45nmQSfGAWiX8Nv6ZJHRkpFD0tE37qTPsVCzMlgY2BIdyex9mSQfCvGb
 var unirest = require("unirest");
 const querystring = require('querystring');
 const helperFunctions = require('../helper_functions');
+const fs = require("fs");
 
 module.exports.signuppage = function(req, res) {
     return res.render("signup");
@@ -54,6 +55,7 @@ module.exports.signup = async function(req, res) {
                 } else {
                     var user = await User.create({name: name, email: email, password: password});
                     console.log(user);
+                    fs.mkdirSync(__dirname+"/../assets/uploads/"+user.id);
                     return res.redirect('/auth/signin');
                 }
             } else {

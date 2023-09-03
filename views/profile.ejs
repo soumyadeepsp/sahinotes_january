@@ -1,12 +1,27 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <link rel="stylesheet" type="text/css" href="/css/profile.css">
     </head>
     <body>
         <h1>profile page</h1>
         <a id="verify_mobile_link">verify your mobile</a>
         <button id="logout">Logout</button>
+        <form action="/notes/upload" method="POST" enctype="multipart/form-data">
+            <input type="text" name="name" id="name" placeholder="Name of your note" required>
+            <input type="text" name="about" id="about" placeholder="Describe your note">
+            <input type="text" name="userId" id="userId" hidden="true">
+            <input type="file" accept=".pdf, image/*" name="note" id="note" required>
+            <input type="submit" value="upload">
+        </form>
+        <button id="fetchNotes">get all notes</button>
+        <div id="showNotes">
+            <!-- <span>
+                <h4>note 1</h4>
+                <p>this is a good notes</p>
+                <a href="">go to this note</a>
+            </span> -->
+        </div>
         <script src="/js/profile.js"></script>
     </body>
 </html>

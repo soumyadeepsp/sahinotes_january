@@ -11,7 +11,9 @@ const userSchema = new mongoose.Schema({
   mobile_otp: { type: String },
   mobile_verified: {type: Boolean, default: false},
   passwordEditInitiation: {type: Date},
-  expiryDate: { type: Date }
+  expiryDate: { type: Date },
+  notesList: [{ type: mongoose.Schema.Types.ObjectId, ref: 'notes' }],
+  likedNotes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'notes' }],
 }, {
     timestamps: true
 });

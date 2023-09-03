@@ -4,6 +4,9 @@ console.log(id);
 window.localStorage.setItem("user_id", id);
 document.cookie = "user_id="+id;
 
+var userId = document.getElementById("userId");
+userId.value = id;
+
 var logout = document.getElementById("logout");
 logout.addEventListener("click", function() {
     window.localStorage.removeItem("user_id");
@@ -24,3 +27,82 @@ logout.addEventListener("click", function() {
 
 var verify_mobile_link = document.getElementById("verify_mobile_link");
 verify_mobile_link.setAttribute("href", "/auth/verify-mobile/?user_id="+id);
+
+function displayNotes(data) {
+    function changeLikeButtonColor(noteId, data) {
+        console.log(noteId, data);
+        var likeButton = document.getElementById(noteId);
+        if (data.message=="liked") {
+            likeButton.style.color = "red";
+        } else {
+            likeButton.style.color = "black";
+        }
+    }
+    var notes = data.data;
+    console.log(notes);
+    var showNotes = document.getElementById("showNotes");
+    showNotes.innerHTML = "";
+    // var span = document.createElement("span");
+    // var h4 = document.createElement("h4");
+    for (var i=0; i<notes.length; i++) {
+        var fileLocation = notes[i].fileLocation;
+        fileLocation = fileLocation.substring(fileLocation.indexOf("assets")+7);
+        if (notes[i].likedUsers.includes(id)) {
+            showNotes.innerHTML += `<span>
+                <h4 class="red">${notes[i].name}</h4>
+                <p class="blue">${notes[i].about}</p>
+                <button style="color: red;" class="like_button" id="${notes[i].id}">like</button>
+                <a target="_blank" href="http://localhost:3000/${fileLocation}">go to this note</a>
+                <textarea data-textAreaId="${notes[i].id}"></textarea>
+                <button class="commentButton" data-noteId="${notes[i].id}">add comment</button>
+            </span>`
+            // showNotes.innerHTML += addComments(notes[i].parentComment)
+        } else {
+            showNotes.innerHTML += `<span>
+                <h4 class="red">${notes[i].name}</h4>
+                <p class="blue">${notes[i].about}</p>
+                <button class="like_button" id="${notes[i].id}">like</button>
+                <a target="_blank" href="http://localhost:3000/${fileLocation}">go to this note</a>
+                <textarea data-textAreaId="${notes[i].id}"></textarea>
+                <button class="commentButton" data-noteId="${notes[i].id}">add comment</button>
+            </span>`
+        }
+    }
+    var likeButtons = document.getElementsByClassName("like_button");
+    console.log(likeButtons);
+    for (let i=0; i<likeButtons.length; i++) {
+        likeButtons[i].addEventListener("click", function(e) {
+            var noteId = likeButtons[i].getAttribute("id");
+            fetch('http://localhost:3000/notes/like/?userId='+id+'&noteId='+noteId, {
+                method: 'POST'
+                })
+                .then(response => response.json())
+                .then(data => changeLikeButtonColor(noteId, data))
+                .catch(error => console.error(error));
+        });
+    }
+    var commentButtons = document.getElementsByClassName("commentButton");
+    for (let i=0; i<commentButtons.length; i++) {
+        commentButtons[i].addEventListener("click", function(e) {
+            var noteId = commentButtons[i].getAttribute("data-noteId");
+            var content = document.querySelector(`textarea[data-textAreaId="${noteId}"]`);
+            fetch('http://localhost:3000/notes/comment/?userId='+id+'&noteId='+noteId+'&content='+content.value, {
+                method: 'POST'
+                })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error(error));
+        });
+    }
+}
+
+var fetchNotes = document.getElementById("fetchNotes");
+fetchNotes.addEventListener("click", function() {
+    fetch('http://localhost:3000/notes/get-all-notes/?userId='+id, {
+        method: 'GET'
+        })
+        .then(response => response.json())
+        .then(data => displayNotes(data))
+        .catch(error => console.error(error));
+});
+
