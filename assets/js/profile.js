@@ -28,6 +28,13 @@ logout.addEventListener("click", function() {
 var verify_mobile_link = document.getElementById("verify_mobile_link");
 verify_mobile_link.setAttribute("href", "/auth/verify-mobile/?user_id="+id);
 
+// function printChildComments(comment) {    
+//     // display the content of this comment
+//     for (let i=0; i<comment.childComments.length; i++) {
+//         printChildComments(comment.childComments[i]);
+//     }
+// }
+
 function displayNotes(data) {
     function changeLikeButtonColor(noteId, data) {
         console.log(noteId, data);
@@ -56,7 +63,7 @@ function displayNotes(data) {
                 <textarea data-textAreaId="${notes[i].id}"></textarea>
                 <button class="commentButton" data-noteId="${notes[i].id}">add comment</button>
             </span>`
-            // showNotes.innerHTML += addComments(notes[i].parentComment)
+            // showNotes.innerHTML += addComments(notes[i].parentComments);
         } else {
             showNotes.innerHTML += `<span>
                 <h4 class="red">${notes[i].name}</h4>
@@ -66,6 +73,17 @@ function displayNotes(data) {
                 <textarea data-textAreaId="${notes[i].id}"></textarea>
                 <button class="commentButton" data-noteId="${notes[i].id}">add comment</button>
             </span>`
+        }
+        for (let j=0; j<notes[i].parentComments.length; j++) {
+            showNotes.innerHTML += `
+                <div>
+                    <p style="display: inline-block">${notes[i].parentComments[j].content}</p>
+                    <button class="deleteComment" data-commentId="${notes[i].parentComments[j]._id}">delete</button>
+                    <textarea data-textAreaId="${notes[i].parentComments[j]._id}"></textarea>
+                    <button class="commentButton" data-commentId="${notes[i].parentComments[j]._id}">add child comment</button>
+                </div>
+            `
+            // showNotes.innerHTML += printChildComments(notes[i].parentComments[j]);
         }
     }
     var likeButtons = document.getElementsByClassName("like_button");
@@ -86,7 +104,7 @@ function displayNotes(data) {
         commentButtons[i].addEventListener("click", function(e) {
             var noteId = commentButtons[i].getAttribute("data-noteId");
             var content = document.querySelector(`textarea[data-textAreaId="${noteId}"]`);
-            fetch('http://localhost:3000/notes/comment/?userId='+id+'&noteId='+noteId+'&content='+content.value, {
+            fetch('http://localhost:3000/notes/comment/?userId='+id+'&parentId='+noteId+'&content='+content.value, {
                 method: 'POST'
                 })
                 .then(response => response.json())

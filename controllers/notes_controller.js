@@ -48,15 +48,10 @@ module.exports.getAllNotes = async function(req, res) {
         for (var i=0; i<user.notesList.length; i++) {
             var noteReturn = {};
             var noteId = user.notesList[i];
-            var note = await Note.findById(noteId);
+            var note = await Note.findById(noteId).populate('author').populate({path: 'parentComments'});
+            // var note = await Note.findById(noteId);
             console.log(note);
-            noteReturn.name = note.name;
-            noteReturn.about = note.about;
-            noteReturn.fileLocation = note.fileLocation;
-            noteReturn.id = note.id;
-            noteReturn.likedUsers = note.likedUsers;
-            noteReturn.allComments = {};
-            allNotes.push(noteReturn);
+            allNotes.push(note);
 
         }
         return res.status(200).send({success: true, data: allNotes});
@@ -95,17 +90,17 @@ module.exports.likeNote = async function(req, res) {
 
 module.exports.addComment = async function(req, res) {
     var userId = req.query.userId;
-    var noteId = req.query.noteId;
+    var parentId = req.query.parentId;
     var content = req.query.content;
     var comment = await Comment.create({
         content: content,
         user: userId,
-        parent: noteId
+        parent: parentId
     });
     console.log(userId, noteId, content);
     console.log(comment);
     var note = await Note.findById(noteId);
     note.parentComments.push(comment.id);
     await note.save();
-    return res.redirect('back');
+    return res.status(200).send({"success": true});
 }

@@ -6,9 +6,9 @@ const noteSchema = new mongoose.Schema({
   name: { type: String, required: true },
   about: { type: String },
   fileLocation: { type: String, required: true },
-  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  likedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-  parentComments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'sahinotes_user' },
+  likedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'sahinotes_user' }],
+  parentComments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'comment' }]
 }, {
     timestamps: true
 });

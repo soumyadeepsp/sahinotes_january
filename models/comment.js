@@ -4,11 +4,11 @@ const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema({
   content: { type: String, required: true },
-  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'sahinotes_user' },
   parent: { type: mongoose.Schema.Types.ObjectId },
   isChildComment: { type: Boolean, required: true, default: false},
-  childComments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
-  likedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+  childComments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'comment' }],
+  likedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'sahinotes_user' }]
 }, {
     timestamps: true
 });
