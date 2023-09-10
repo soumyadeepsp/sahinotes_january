@@ -1,16 +1,44 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <link rel="stylesheet" href="/css/signup.css">
     </head>
     <body>
-        <h1>signup page</h1>
-        <form action="/auth/signup" method="POST">
-            <input type="text" required="true" placeholder="your name" id="name" name="name">
-            <input type="email" required="true" placeholder="your email" id="email" name="email">
-            <input type="password" required="true" placeholder="your password" id="password" name="password">
-            <input type="password" required="true" placeholder="confirm your password" id="confirm_password" name="confirm_password">
-            <input type="submit" value="signup">
-        </form>
+        <div class="container">
+            <h1>Create your account</h1>
+            <form action="/auth/signup" method="POST">
+                <div class="input">
+                    <input type="text" required="true"  id="name" name="name">
+                    <label class="label-unactive" for="name"> Name </label>
+                </div>
+                <div class="input">
+                    <input type="email" required="true"  id="email" name="email">
+                    <label class="label-unactive" for="email"> Email address </label>
+                </div>
+                <div class="input">
+                    <input type="password" required="true"  id="password" name="password">
+                    <label class="label-unactive" for="password"> Password </label>
+                </div>
+                <div class="input">
+                    <input type="password" required="true" name="confirm_password">
+                    <label class="label-unactive" for="confirm_password"> Confirm Password </label>
+                </div>
+                <div class="input">
+                    <button id="submit-btn" type="submit">Continue</button>
+                </div>
+            </form>
+
+            <p id="already-have-account">Already have an account? <a href="/auth/signin">Log in</a></p>
+
+            <p id="or">OR</p>
+
+            <a href="" ><button id="continue-with-google">
+                <img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="google-logo">
+                <p>Continue with Google</p>
+            </button></a>
+        </div>
+        
+        <script src="/js/signup.js"></script>
     </body>
+
 </html>
