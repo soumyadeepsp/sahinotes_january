@@ -58,20 +58,20 @@ function displayNotes(data) {
             showNotes.innerHTML += `<span>
                 <h4 class="red">${notes[i].name}</h4>
                 <p class="blue">${notes[i].about}</p>
-                <button style="color: red;" class="like_button" id="${notes[i].id}">like</button>
+                <button style="color: red;" class="like_button" id="${notes[i]._id}">like</button>
                 <a target="_blank" href="http://18.119.130.95:3000/${fileLocation}">go to this note</a>
-                <textarea data-textAreaId="${notes[i].id}"></textarea>
-                <button class="commentButton" data-noteId="${notes[i].id}">add comment</button>
+                <textarea data-textAreaId="${notes[i]._id}"></textarea>
+                <button class="commentButton" data-noteId="${notes[i]._id}">add comment</button>
             </span>`
             // showNotes.innerHTML += addComments(notes[i].parentComments);
         } else {
             showNotes.innerHTML += `<span>
                 <h4 class="red">${notes[i].name}</h4>
                 <p class="blue">${notes[i].about}</p>
-                <button class="like_button" id="${notes[i].id}">like</button>
+                <button class="like_button" id="${notes[i]._id}">like</button>
                 <a target="_blank" href="http://18.119.130.95:3000/${fileLocation}">go to this note</a>
-                <textarea data-textAreaId="${notes[i].id}"></textarea>
-                <button class="commentButton" data-noteId="${notes[i].id}">add comment</button>
+                <textarea data-textAreaId="${notes[i]._id}"></textarea>
+                <button class="commentButton" data-noteId="${notes[i]._id}">add comment</button>
             </span>`
         }
         for (let j=0; j<notes[i].parentComments.length; j++) {
