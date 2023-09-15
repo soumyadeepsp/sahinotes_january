@@ -183,7 +183,7 @@ module.exports.sendForgotPasswordEmail = async function(req, res) {
     console.log(email);
     var user = await User.findOne({email: email});
     if (user) {
-        var emailBody = `<h1>Click on the link to reset password</h1> <a href="http://localhost:3000/auth/reset-password/?user_id=${user.id}">Reset password</a>`
+        var emailBody = `<h1>Click on the link to reset password</h1> <a href="http://18.119.130.95:3000/auth/reset-password/?user_id=${user.id}">Reset password</a>`
         await helperFunctions.sendemail(user, emailBody);
         user.passwordEditInitiation = new Date();
         await user.save();

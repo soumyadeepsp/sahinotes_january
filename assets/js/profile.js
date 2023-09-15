@@ -11,9 +11,9 @@ var logout = document.getElementById("logout");
 logout.addEventListener("click", function() {
     window.localStorage.removeItem("user_id");
     document.cookie = "user_id" + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    window.location.href = "http://localhost:3000/auth/logout/?user_id="+id;
+    window.location.href = "http://18.119.130.95:3000/auth/logout/?user_id="+id;
     console.log(id);
-    // fetch('http://localhost:3000/auth/logout/?user_id='+id, {
+    // fetch('http://18.119.130.95:3000/auth/logout/?user_id='+id, {
     //     method: 'GET'
     //     // headers: {
     //     //     'Content-Type': 'application/x-www-form-urlencoded'
@@ -59,7 +59,7 @@ function displayNotes(data) {
                 <h4 class="red">${notes[i].name}</h4>
                 <p class="blue">${notes[i].about}</p>
                 <button style="color: red;" class="like_button" id="${notes[i].id}">like</button>
-                <a target="_blank" href="http://localhost:3000/${fileLocation}">go to this note</a>
+                <a target="_blank" href="http://18.119.130.95:3000/${fileLocation}">go to this note</a>
                 <textarea data-textAreaId="${notes[i].id}"></textarea>
                 <button class="commentButton" data-noteId="${notes[i].id}">add comment</button>
             </span>`
@@ -69,7 +69,7 @@ function displayNotes(data) {
                 <h4 class="red">${notes[i].name}</h4>
                 <p class="blue">${notes[i].about}</p>
                 <button class="like_button" id="${notes[i].id}">like</button>
-                <a target="_blank" href="http://localhost:3000/${fileLocation}">go to this note</a>
+                <a target="_blank" href="http://18.119.130.95:3000/${fileLocation}">go to this note</a>
                 <textarea data-textAreaId="${notes[i].id}"></textarea>
                 <button class="commentButton" data-noteId="${notes[i].id}">add comment</button>
             </span>`
@@ -91,7 +91,7 @@ function displayNotes(data) {
     for (let i=0; i<likeButtons.length; i++) {
         likeButtons[i].addEventListener("click", function(e) {
             var noteId = likeButtons[i].getAttribute("id");
-            fetch('http://localhost:3000/notes/like/?userId='+id+'&noteId='+noteId, {
+            fetch('http://18.119.130.95:3000/notes/like/?userId='+id+'&noteId='+noteId, {
                 method: 'POST'
                 })
                 .then(response => response.json())
@@ -104,7 +104,7 @@ function displayNotes(data) {
         commentButtons[i].addEventListener("click", function(e) {
             var noteId = commentButtons[i].getAttribute("data-noteId");
             var content = document.querySelector(`textarea[data-textAreaId="${noteId}"]`);
-            fetch('http://localhost:3000/notes/comment/?userId='+id+'&parentId='+noteId+'&content='+content.value, {
+            fetch('http://18.119.130.95:3000/notes/comment/?userId='+id+'&parentId='+noteId+'&content='+content.value, {
                 method: 'POST'
                 })
                 .then(response => response.json())
@@ -116,7 +116,7 @@ function displayNotes(data) {
 
 var fetchNotes = document.getElementById("fetchNotes");
 fetchNotes.addEventListener("click", function() {
-    fetch('http://localhost:3000/notes/get-all-notes/?userId='+id, {
+    fetch('http://18.119.130.95:3000/notes/get-all-notes/?userId='+id, {
         method: 'GET'
         })
         .then(response => response.json())
