@@ -97,9 +97,9 @@ module.exports.addComment = async function(req, res) {
         user: userId,
         parent: parentId
     });
-    console.log(userId, noteId, content);
+    console.log(userId, parentId, content);
     console.log(comment);
-    var note = await Note.findById(noteId);
+    var note = await Note.findById(parentId);
     note.parentComments.push(comment.id);
     await note.save();
     return res.status(200).send({"success": true});
